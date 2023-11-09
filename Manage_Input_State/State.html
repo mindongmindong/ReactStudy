@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="root"></div>
+</head>
+
+<body>
+</body>
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById("root");
+    const MinutesToHours = () => {
+        const [amount, setAmount] = React.useState();
+        const [flipped, setFlipped] = React.useState(false);
+        const onChange = (event) => {
+            setAmount(event.target.value);
+        }
+        const reset = () => {
+            setAmount("");
+        }
+        const flip = () => {
+            reset();
+            setFlipped((current) => !current);
+        }
+        return (
+            <div>
+                <div>
+                    <label htmlfor="minutes">Minutes</label>
+                    <input
+                        value={flipped ? amount*60 : amount}
+                        id="minutes"
+                        placeholder="Minutes"
+                        type="number"
+                        onChange={onChange}
+                        disabled={flipped}
+                    />
+                </div>
+                <div>
+                    <label htmlfor="hours">Hours</label>
+                    <input
+                        value={flipped ? amount : Math.round(amount / 60)}
+                        id="hours"
+                        placeholder="Hours"
+                        type="number"
+                        onChange={onChange}
+                        disabled={!flipped}
+                         />
+                </div>
+                <button
+                onClick = {reset}
+                >Reset</button>
+                <button
+                onClick = {flip}
+                >{flipped ? "Change to minutes" : "Change to hours"}</button>
+            </div>);
+    };
+    const Length = ()=>{
+        const [length,setLength] = React.useState();
+        const [flipped, setFlipped] = React.useState(false);
+        const onChange = (event) =>{
+            setLength(event.target.value);
+        }
+        const reset = ()=>{
+            setLength("");
+        }
+        const flip = () =>{
+            reset();
+            setFlipped((flipped)=>!flipped);
+        }
+        return(
+            <div>
+                <div>
+                    <label htmlfor = "cm">cm</label>
+                    <input
+                    value = {flipped ? length * 100 : length}
+                    id = "centimeter"
+                    placeholder ="cm"
+                    type = "number"
+                    onChange={onChange}
+                    disabled ={flipped} 
+                    />
+                </div>
+                <div>
+                    <label htmlfor="meter">meter</label>
+                    <input
+                    value={flipped ? length : length / 100}
+                    id= "meter"
+                    placeholder= "Meter"
+                    type = "number"
+                    onChange={onChange}
+                    disabled={!flipped}
+                    />
+                </div>
+                <button onClick = {reset}>reset</button>
+                <button onClick = {flip}>{flipped ? "change to cm" : "change to meter"}</button>
+            </div>
+        );
+    };
+    const App =()=>{
+        const [index,setIndex] = React.useState("-1");
+        const onSelect = (event) =>{
+            setIndex(event.target.value);
+        }
+        return(
+            <div>
+                <h1>Super converter</h1>
+                <select value = {index} onChange={onSelect}>
+                    <option value="-1"> Select thing </option>
+                    <option value="0">Time converter</option>
+                    <option value="1">Length converter</option>
+                </select>
+                <hr />
+                <br />
+                {index === "0" ? <MinutesToHours /> : null} 
+                {index === "1" ? <Length /> : null}
+            </div>
+        );
+    };
+
+    ReactDOM.render(<App />, root);
+</script>
+
+</html>
